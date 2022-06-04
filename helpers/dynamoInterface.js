@@ -33,6 +33,7 @@ module.exports.insertNewZillowItemsForUser = async (items, username) => {
     username = username.toLowerCase();
 
     for (const item of items) {
+        console.log(JSON.stringify(item, '', 2));
         const params = {
             TableName: LANDTRACKER_TABLENAME,
             Item: {
