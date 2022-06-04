@@ -74,24 +74,29 @@ module.exports.getItemsForZpids = async (zpids) => {
             headers,
             data,
         };
+
+        const {
+            data: zillowData
+        } = await axios(options);
+
         const {
             data: {
-                data: {
-                    property: {
-                        address,
-                        livingArea,
-                        hdpUrl,
-                        price,
-                        resoFacts: {
-                            bedrooms,
-                            bathrooms,
-                            lotSize,
-                        },
-                        photos
-                    }
+                property: {
+                    address,
+                    livingArea,
+                    hdpUrl,
+                    price,
+                    resoFacts: {
+                        bedrooms,
+                        bathrooms,
+                        lotSize,
+                    },
+                    photos,
+                    latitude,
+                    longitude
                 }
             }
-        } = await axios(options);
+        } = zillowData;
 
         const item = {
             scrapedTs: new Date().toISOString(),
@@ -103,7 +108,9 @@ module.exports.getItemsForZpids = async (zpids) => {
             livingArea,
             hdpUrl,
             price,
-            photos: photos.map(({ mixedSources: { jpeg } }) => jpeg[jpeg.length - 1].url)
+            photos: photos.map(({ mixedSources: { jpeg } }) => jpeg[jpeg.length - 1].url),
+            latitude,
+            longitude
         }
         return item;
     }
