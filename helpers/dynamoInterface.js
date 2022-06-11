@@ -75,6 +75,36 @@ module.exports.getUsersFeed = async (username, ExclusiveStartKey) => {
     };
 }
 
+module.exports.getUsersInactiveFeed = async (username, ExclusiveStartKey) => {
+    username = username.toLowerCase();
+
+    let hasNext = false;
+    const params = {
+        TableName: INACTIVE_LANDTRACKER_TABLENAME,
+        KeyConditionExpression: "PK = :pk",
+        ExpressionAttributeValues: {
+            ":pk": `FEED#${username}`
+        },
+        Limit: 20,
+        ScanIndexForward: false,
+        ExclusiveStartKey
+    }
+
+    const res = await dynamoDb.query(params).promise();
+    const {
+        Items,
+        LastEvaluatedKey: nextKey
+    } = res;
+    if (nextKey) {
+        hasNext = true;
+    }
+    return {
+        feed: Items,
+        hasNext,
+        nextKey
+    };
+}
+
 module.exports.insertInactiveZillowItemsForUser = async (items, username) => {
     username = username.toLowerCase();
 

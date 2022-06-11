@@ -1,0 +1,32 @@
+{
+  "name": "landtracker",
+  "version": "1.0.0",
+  "description": "<!-- title: 'AWS NodeJS Example' description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.' layout: Doc framework: v2 platform: AWS language: nodeJS priority: 1 authorLink: 'https://github.com/serverless' authorName: 'Serverless, inc.' authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4' -->",
+  "main": "config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1130.0",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "node-html-parser": "^5.3.3",
+    "twilio": "^3.77.0",
+    "serverless-dotenv-plugin": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "sls deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarounAns/landtracker.git"
+  },
+  "author": "Haroun Ansari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HarounAns/landtracker/issues"
+  },
+  "homepage": "https://github.com/HarounAns/landtracker#readme"
+}
