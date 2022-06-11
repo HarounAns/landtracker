@@ -40,6 +40,13 @@ functions:
           path: users/{username}/feed
           method: get
           cors: true
+  getUsersInactiveFeed:
+    handler: getUsersInactiveFeed.handler
+    events:
+      - http:
+          path: users/{username}/inactive_feed
+          method: get
+          cors: true
 
 resources:
   Resources:
