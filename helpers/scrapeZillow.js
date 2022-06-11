@@ -6,7 +6,10 @@ const axios = require("axios");
  * @returns zpids
  */
 module.exports.getZillowZpidsForSearch = async () => {
-    const url = `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22mapBounds%22%3A%7B%22west%22%3A-79.3446478423473%2C%22east%22%3A-74.9556097564098%2C%22south%22%3A37.32623661959014%2C%22north%22%3A40.262518844449%7D%2C%22customRegionId%22%3A%221513c626f1X1-CR1pw6lbyctys8u_ua0x1%22%2C%22mapZoom%22%3A8%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22price%22%3A%7B%22min%22%3A0%2C%22max%22%3A600000%7D%2C%22isCondo%22%3A%7B%22value%22%3Afalse%7D%2C%22isApartment%22%3A%7B%22value%22%3Afalse%7D%2C%22enableSchools%22%3A%7B%22value%22%3Afalse%7D%2C%22isMultiFamily%22%3A%7B%22value%22%3Afalse%7D%2C%22monthlyPayment%22%3A%7B%22min%22%3A0%2C%22max%22%3A2567%7D%2C%22isAllHomes%22%3A%7B%22value%22%3Atrue%7D%2C%22sortSelection%22%3A%7B%22value%22%3A%22globalrelevanceex%22%7D%2C%22lotSize%22%3A%7B%22min%22%3A21780%7D%2C%22isLotLand%22%3A%7B%22value%22%3Afalse%7D%2C%22isManufactured%22%3A%7B%22value%22%3Afalse%7D%2C%22isApartmentOrCondo%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%7D&wants={%22cat1%22:[%22mapResults%22]}&requestId=2`;
+    const mapBounds = { "west": -77.98796743161508, "east": -76.09282583005258, "south": 37.93353582354758, "north": 39.404532209165104 };
+    const customRegionId = "8de9c629cfX1-CRc7sbmyf9mvzy_wuqg7";
+    const searchQueryState = `{"pagination":{},"mapBounds":${JSON.stringify(mapBounds)},"customRegionId":"${customRegionId}","mapZoom":8,"isMapVisible":true,"filterState":{"price":{"min":0,"max":600000},"isCondo":{"value":false},"isApartment":{"value":false},"enableSchools":{"value":false},"isMultiFamily":{"value":false},"monthlyPayment":{"min":0,"max":2567},"isAllHomes":{"value":true},"sortSelection":{"value":"globalrelevanceex"},"lotSize":{"min":21780},"isLotLand":{"value":false},"isManufactured":{"value":false},"isApartmentOrCondo":{"value":false}},"isListVisible":true}`;
+    const url = `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState=${encodeURIComponent(searchQueryState)}&wants={%22cat1%22:[%22mapResults%22]}&requestId=2`;
     const headers = {
         'authority': 'www.zillow.com',
         'accept': '*/*',

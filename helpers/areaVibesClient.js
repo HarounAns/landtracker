@@ -33,6 +33,7 @@ module.exports.getLivabilityScoreForFullAddress = async (fullAddress) => {
 
 module.exports.addLivabilityScoresToZillowItems = async (items) => {
     for (const item of items) {
+        let fullAddress;
         try {
             const {
                 address: {
@@ -42,11 +43,11 @@ module.exports.addLivabilityScoresToZillowItems = async (items) => {
                     zipcode
                 }
             } = item;
-            const fullAddress = `${streetAddress}, ${city}, ${state}, ${zipcode || ''}`;
+            fullAddress = `${streetAddress}, ${city}, ${state}, ${zipcode || ''}`;
             const livabilityScore = await _getLivabilityScoreForFullAddress(fullAddress);
             item.livabilityScore = livabilityScore;
         } catch (error) {
-            console.error(`Error adding livability score for ${fullAddress}`, error.message);
+            console.error(`Error adding livability score for ${fullAddress || JSON.stringify(address)}`, error.message);
         }
     }
 }
