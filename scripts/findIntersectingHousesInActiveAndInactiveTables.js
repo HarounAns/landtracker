@@ -3,7 +3,6 @@ const dynamo = require('../helpers/dynamoInterface');
 const { USERNAME } = require('../config');
 
 const main = async () => {
-    // assumes all documents fit in a single dynamo page
     const inactiveItems = await dynamo.getAllInactiveItemsForUser(USERNAME);
     const inactiveZpids = inactiveItems.map(({ zpid }) => zpid);
 

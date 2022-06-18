@@ -5,7 +5,6 @@ const zillow = require('../helpers/scrapeZillow');
 const { USERNAME, INACTIVE_LANDTRACKER_TABLENAME } = require('../config');
 
 const main = async () => {
-    // assumes all documents fit in a single dynamo page
     const inactiveItems = await dynamo.getAllInactiveItemsForUser(USERNAME);
     const zillowItems = await zillow.getItemsForZpids(inactiveItems.map(({ zpid }) => zpid));
 

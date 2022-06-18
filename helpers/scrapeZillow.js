@@ -104,10 +104,6 @@ module.exports.getItemsForZpids = async (zpids) => {
             }
         } = zillowData;
 
-        console.log(`${homeStatus}, https://zillow.com${hdpUrl}, ${contingentListingType}`);
-
-        // const for our purposes if the contingentListingType is 'UNDER_CONTRACT' then thats what the home status is
-
         const item = {
             scrapedTs: new Date().toISOString(),
             zpid,
