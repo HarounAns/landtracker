@@ -40,11 +40,20 @@ module.exports.handler = async () => {
   // put active zpids in Dynamo for user
   await dynamo.putActiveZpidsForUser(zillowZpids, USERNAME);
 
-  // TODO: add handling deactivating old zpids
   if (oldZpids.length) {
     const { feed } = await dynamo.getUsersFeed(USERNAME);
     const inactiveItems = feed.filter(({ zpid }) => oldZpids.includes(zpid));
     console.info(`Found items for ${inactiveItems.length} inactive properties`);
+
+    // TODO: add inactive fields like home status to item
+    const zillowItems = await zillow.getItemsForZpids(inactiveItems.map(({ zpid }) => zpid));
+
+    inactiveItems.map(ia => {
+      const { homeStatus } = zillowItems.find(({ zpid }) => ia.zpid === zpid);
+      ia.homeStatus = homeStatus;
+    })
+
+    console.log(inactiveItems);
 
     // move to new table
     await dynamo.insertInactiveZillowItemsForUser(inactiveItems, USERNAME);

@@ -96,10 +96,17 @@ module.exports.getItemsForZpids = async (zpids) => {
                     },
                     photos,
                     latitude,
-                    longitude
+                    longitude,
+                    homeStatus,
+                    contingentListingType,
+                    priceHistory
                 }
             }
         } = zillowData;
+
+        console.log(`${homeStatus}, https://zillow.com${hdpUrl}, ${contingentListingType}`);
+
+        // const for our purposes if the contingentListingType is 'UNDER_CONTRACT' then thats what the home status is
 
         const item = {
             scrapedTs: new Date().toISOString(),
@@ -113,7 +120,9 @@ module.exports.getItemsForZpids = async (zpids) => {
             price,
             photos: photos.map(({ mixedSources: { jpeg } }) => jpeg[jpeg.length - 1].url),
             latitude,
-            longitude
+            longitude,
+            homeStatus: contingentListingType === 'UNDER_CONTRACT' ? contingentListingType : homeStatus,
+            priceHistory
         }
         return item;
     }
