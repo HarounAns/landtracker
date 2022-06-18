@@ -96,7 +96,10 @@ module.exports.getItemsForZpids = async (zpids) => {
                     },
                     photos,
                     latitude,
-                    longitude
+                    longitude,
+                    homeStatus,
+                    contingentListingType,
+                    priceHistory
                 }
             }
         } = zillowData;
@@ -113,7 +116,9 @@ module.exports.getItemsForZpids = async (zpids) => {
             price,
             photos: photos.map(({ mixedSources: { jpeg } }) => jpeg[jpeg.length - 1].url),
             latitude,
-            longitude
+            longitude,
+            homeStatus: contingentListingType === 'UNDER_CONTRACT' ? contingentListingType : homeStatus,
+            priceHistory
         }
         return item;
     }

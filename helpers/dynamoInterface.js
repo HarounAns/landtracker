@@ -75,7 +75,7 @@ module.exports.getUsersFeed = async (username, ExclusiveStartKey) => {
     };
 }
 
-module.exports.getUsersInactiveFeed = async (username, ExclusiveStartKey) => {
+const _getUsersInactiveFeed = async (username, ExclusiveStartKey) => {
     username = username.toLowerCase();
 
     let hasNext = false;
@@ -103,6 +103,22 @@ module.exports.getUsersInactiveFeed = async (username, ExclusiveStartKey) => {
         hasNext,
         nextKey
     };
+}
+
+module.exports.getUsersInactiveFeed = _getUsersInactiveFeed;
+
+module.exports.getAllInactiveItemsForUser = async (username) => {
+    let hasNext = true;
+    let nextKey;
+    const allItems = [];
+    while (hasNext) {
+        console.log('.');
+        const inactiveFeed = await _getUsersInactiveFeed(username, nextKey);
+        allItems.push(...inactiveFeed.feed);
+        nextKey = inactiveFeed.nextKey;
+        hasNext = inactiveFeed.hasNext;
+    }
+    return allItems;
 }
 
 module.exports.insertInactiveZillowItemsForUser = async (items, username) => {
@@ -148,10 +164,10 @@ module.exports.removeInactiveZillowItemsForUserFromActiveTable = async (items, u
     }
 }
 
-module.exports.insertItems = async (items) => {
+module.exports.insertItems = async (items, TableName) => {
     for (const Item of items) {
         const params = {
-            TableName: LANDTRACKER_TABLENAME,
+            TableName: TableName || LANDTRACKER_TABLENAME,
             Item
         };
         await dynamoDb.put(params).promise();
